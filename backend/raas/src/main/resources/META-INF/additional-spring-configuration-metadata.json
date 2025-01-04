@@ -1,0 +1,12 @@
+{"properties": [
+  {
+    "name": "rate.limiter.time-window",
+    "type": "java.lang.String",
+    "description": "time window to refresh rates"
+  },
+  {
+    "name": "rate.limiter.max-requests",
+    "type": "java.lang.String",
+    "description": "max requests per time window"
+  }
+]}
