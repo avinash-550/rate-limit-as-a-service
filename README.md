@@ -78,6 +78,15 @@ Open [index.html](frontend/index.html) in your favorite browser.
     "requestPath": "orders"
    }
   ```
+
+## Configuration
+
+| Environment Variable             | Default Value | Description                       |
+|----------------------------------|---------------|-----------------------------------|
+| `RATE_LIMITER_MAX_REQUESTS`      | `10`          | Maximum number of requests allowed per time window. |
+| `RATE_LIMITER_TIME_WINDOW`       | `60`          | Time window in seconds for the quota refresh.         |
+
+
 ## How It Works
 
 1. **Key Generation**:  
