@@ -1,7 +1,7 @@
 # Rate-limit-as-a-service AKA Raas
 A dedicated microservice for rate limiting to check if users are within limits.
 
----
+
 
 ## Features
 
@@ -11,42 +11,72 @@ A dedicated microservice for rate limiting to check if users are within limits.
 - **HTTP 429 Response**: Returns a "Too Many Requests" response when limits are exceeded.
 - **Configurable Limits**: Easily adjust request limits and time windows.
 
----
+## Working Demo
+<div >
+  <img src="artifacts/raas_demo.gif" width="700" />
+</div>
 
+## Architecture
+![Architecture Diagram](artifacts/architecture.png)
+
+
+[Architecture Edit Link](https://drive.google.com/file/d/1yVSM8zGEvzjBebzTH37iipqzIpmyStho/view?usp=drive_link)
 ## Requirements
 
 - **Java 17**
-- **Spring Boot 3.4.1**
+- **Spring Boot 3.xx**
 - **Redis** (Installed locally or accessible via Docker)
+- **Maven** (for building the project)
 
----
+
 
 ## Setup and Installation
 
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/api-rate-limiter.git
-cd api-rate-limiter
+git clone https://github.com/avinash-550/rate-limit-as-a-service.git
+cd backend/raas
 ```
 ### 2. Build and Run the Docker-Compose file
 
 ```bash
 docker-compose up --build
 ```
+
+### 3. Run the Spring boot Application
+```bash
+mvn spring-boot:run
+```
+
+## Usage
+
+### Curl
+
+```bash
+curl -X GET "http://localhost:8082/api/limits" \
+  -H "X-Request-Path: orders/history" \
+  -H "X-User-ID: user123"
+```
+
+### Accessing UI
+Open [index.html](frontend/index.html) in your favorite browser.
+
 ## API Design
 
-### **Signup**
+### **Limits API**
 - **Method**: `GET`
-- **URL**: `/api/{urlPath}`
-- **Header**: User-Id (Required)
-- **Description**: verifies rate limit for the user
+- **URL**: `/api/limits`
+- **Header**: X-User-ID (Required)
+- **Header**: X-Request-Path (Required)
+- **Description**: Returns rate limits for the user on the given request path.
 - **Response(s)**:
-  ```
-    200 OK: Request successful.
-  ```
-  ```
-    429 Too Many Requests: Request limit exceeded.
+  ```json
+    {
+    "userId": "xyz",
+    "remainingQuota": 2,
+    "requestPath": "orders"
+   }
   ```
 ## How It Works
 
@@ -63,12 +93,10 @@ docker-compose up --build
 4. **Reset**:
    - After the expiration time (e.g., 60 seconds), the Redis key is automatically removed, resetting the counter.
 
----
+
 
 ## To Do
 
-- [ ] Add support for dynamic rate limits per user or endpoint.
-- [ ] Implement a sliding window algorithm for finer-grained limits.
-- [ ] Add unit tests for edge cases.
-- [ ] Dockerize the application for easier deployment.
+-  Add contract tests.
+-  Dockerize the application for easier deployment.
 
